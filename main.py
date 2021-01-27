@@ -106,12 +106,12 @@ def train(baliky,balik,file): #načtení slovíček do .txt souboru
     slovicka.append(driver.find_element_by_id("word").text)
     preklad.append(driver.find_element_by_id("translation").text)
     #vypsání slovíček
-    f = open(file,"w+")
+    f = open(file,"w", encoding="utf-8")
     for i in range(len(slovicka)):
         f.write(f"{slovicka[i]};{preklad[i]}\n")
 
 def translate(word,file): #přeložení slova z jednoho jazyka do druhého
-    f=open(file, "r")
+    f=open(file, "r", encoding="utf-8")
     words = f.read()
     words = words.split("\n")
     for i in range(len(words)):
@@ -131,11 +131,12 @@ def do_the_hard_stuff(times,file): #řešení úkolů
             pass
         type = ""
         #hledání typu ůkolu podle toho jestli mají style: display: none;, nebo ne
-        for i in types:
-            t = form.find_element_by_id(i)
-            #print(f"type:{i} style: {t.get_attribute('style')}")
-            if t.get_attribute('style') != "display: none;": 
-                type = i
+        while type == "":
+            for i in types:
+                t = form.find_element_by_id(i)
+                #print(f"type:{i} style: {t.get_attribute('style')}")
+                if t.get_attribute('style') != "display: none;": 
+                    type = i
         #print(type)
         t = form.find_element_by_id(type)
         wait_time = 4
@@ -206,7 +207,7 @@ def work_percent(baliky,balik,file): #dokončit balík, když už program umí s
     time.sleep(1)
     while(int(driver.find_element_by_id("progressValue").text[:-1])<50):
         do_the_hard_stuff(1,file)
-    time.sleep(5) #fukin upozonění že jsem za 50 procenty
+    time.sleep(8) #fukin upozonění že jsem za 50 procenty
     while(int(driver.find_element_by_id("progressValue").text[:-1])<100):
         do_the_hard_stuff(1,file)
     
