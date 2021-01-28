@@ -270,20 +270,21 @@ if __name__ == "__main__":
     line()
 
     #výběr balíků
-    baliky = loadBaliks()
-    print("nalezené balíky: ")
-    baliky = driver.find_elements_by_class_name("packageTableRow")
-    for i in baliky:
-        print(f"{baliky.index(i)+1}  {i.find_elements_by_tag_name('td')[0].text}")
+    while True:
+        baliky = loadBaliks()
+        print("nalezené balíky: ")
+        baliky = driver.find_elements_by_class_name("packageTableRow")
+        for i in baliky:
+            print(f"{baliky.index(i)+1}  {i.find_elements_by_tag_name('td')[0].text}")
 
-    selected_balik = int(input(f"vyberte balík (1-{len(baliky)}): "))
-    balik = baliky[selected_balik-1].find_elements_by_tag_name('td')[0].text
+        selected_balik = int(input(f"vyberte balík (1-{len(baliky)}): "))
+        balik = baliky[selected_balik-1].find_elements_by_tag_name('td')[0].text
 
-    akce = int(input("co si přejete s tímto balíkem udělat? (1=procvičit(vytvořit txt), 2=nahnat body, 3=vypracovat(%)): "))
-    #zapsání slovíček do txt souboru
-    if(akce == 1): train_balik(baliky,selected_balik-1, f"{balik}.txt")
-    elif (akce == 2): 
-        how_many_times = int(input("Kolik slovíček chcete vyřešit?: "))
-        work(baliky, selected_balik-1, f"{balik}.txt",how_many_times)
-    elif (akce == 3): work_percent(baliky, selected_balik-1, f"{balik}.txt")
+        akce = int(input("co si přejete s tímto balíkem udělat? (1=procvičit(vytvořit txt), 2=nahnat body, 3=vypracovat(%)): "))
+        #zapsání slovíček do txt souboru
+        if(akce == 1): train_balik(baliky,selected_balik-1, f"{balik}.txt")
+        elif (akce == 2): 
+            how_many_times = int(input("Kolik slovíček chcete vyřešit?: "))
+            work(baliky, selected_balik-1, f"{balik}.txt",how_many_times)
+        elif (akce == 3): work_percent(baliky, selected_balik-1, f"{balik}.txt")
 
