@@ -123,7 +123,7 @@ def translate(word,file): #přeložení slova z jednoho jazyka do druhého
         if(i[1] == word): return i[0]
 
 def do_the_hard_stuff(times,file): #řešení úkolů
-    types = ["transcribe","translateWord", "chooseWord", "findPair", "completeWord", "translateFallingWord"]
+    types = ["transcribe","translateWord", "chooseWord", "findPair", "completeWord", "translateFallingWord", "addMissingWord"]
     form = driver.find_element_by_id("mainForm")
     correctBtn = form.find_element_by_id("correct")
     for owo in range(times):
@@ -195,6 +195,18 @@ def do_the_hard_stuff(times,file): #řešení úkolů
             word = translate(word,file)
             t.find_element_by_id("translateFallingWordAnswer").send_keys(word)
             t.find_element_by_id("translateFallingWordSubmitBtn").click()
+        elif(type == "addMissingWord"):
+            words = translate(t.find_element_by_id("q_sentence").text, file)
+            words = words.replace('.', ' ').replace('?', ' ').split()
+
+            missing = ""
+            hint_words = t.find_element_by_id("a_sentence").text
+            hint_words = hint_words.replace('.', ' ').split()
+            for i in range(len(hint_words)):
+                if hint_words[i] == len(hint_words[i]) * '_':
+                    missing = words[i]
+
+            t.find_element_by_id("missingWordAnswer").send_keys(missing)
 
 def work(baliky,balik,file,how_many_times): #nahánění slovíček
     #baliky[balik].find_elements_by_tag_name('td')[3].find_element_by_tag_name("a").scrollIntoView()
